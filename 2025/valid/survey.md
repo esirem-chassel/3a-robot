@@ -3,9 +3,13 @@
 ## Consignes
 
 Vous pouvez réutiliser autant de code de votre projet original que vous souhaitez.
+
 L'accès à Internet, à Github est autorisé.
+
 L'usage d'IA est interdite.
+
 L'avancée dans l'activité sera notée, ainsi que l'ensemble des compétences en lien avec le projet robotique (bonnes pratiques, programmation, structuration...).
+
 
 ## Interface initiale
 
@@ -33,10 +37,10 @@ Les actions attendues sont les suivantes :
 
 ## Format du fichier .traj
 
-Format du "survey.traj"
 Ce fichier contient une liste d'instructions (une instruction par ligne) devant être réalisées par votre robot.
-FW : le robot doit avancer de X pas
-BW : le robot doit reculer de X pas
-LT : le robot doit faire un pas chassé à gauche de X pas
-RT : le robot doit faire un pas chassé à droite de X pas
+
+- FW : le robot doit avancer de X pas
+- BW : le robot doit reculer de X pas
+- LT : le robot doit faire un pas chassé à gauche de X pas
+- RT : le robot doit faire un pas chassé à droite de X pas
 
