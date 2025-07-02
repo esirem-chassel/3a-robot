@@ -29,6 +29,8 @@ Chaque robot doit s'assurer, soit au moyen de calculs soit au moyen d'une détec
 
 ## Spécifications
 
+Note : quand on parle de "serveur", on parle ici de l'application elle-même.
+
 ## Annexes
 
 ### Format 
