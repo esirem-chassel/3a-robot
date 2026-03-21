@@ -23,6 +23,9 @@ Deux applications doivent donc être développées :
 - une application robot, qui va dérouler la chorégraphie, et envoyer les informations au serveur
 - une application serveur, qui va recevoir les informations et calculer les scores
 
+Chaque application doit pouvoir être lancée indépendemment. Vous devez baser votre application sur des environnements virtuels (venv).
+
+
 ### Application Robot
 
 L'application robot doit être capable de :
@@ -33,6 +36,8 @@ L'application robot doit être capable de :
 - relever périodiquement l'état de la batterie, la couleur de la plaque
 - charger un fichier .dance pour exécuter sa chorégraphie
 
+Cette application doit se baser sur PyQT.
+
 ### Application Serveur
 
 L'application serveur doit être capable de :
@@ -42,27 +47,85 @@ L'application serveur doit être capable de :
 - afficher les points de chaque robot
 
 
-
-### Comptage de points
-
-
-
 ## Spécifications
 
 ### Communication AppRobot <=> AppServer
 
-Protocole HTTP
-Définition d'APIs
-IDs robot à la volée à la première "connexion"
+La communication sera faite via le protocole HTTP.
+Le serveur applicatif doit lancer un serveur HTTP et implémenter à minima les méthodes suivantes :
+
+> `GET /`
+> 
+> Données : *aucune*
+>
+> Renvoi : numéro de version (`string`) : `1.2`
+> 
+> Vérifie la disponibilité du serveur applicatif
+> Cette méthode renvoie simplement un numéro de version du serveur applicatif, et n'est utilisée que pour vérifier si le serveur est debout et répond aux communications.
+
+> `POST /hello`
+>
+> Données : *aucune*
+>
+> Renvoi : identifiant de robot (`string`) : `ABC123`
+> 
+> Enregistre le robot dans la liste des robots "connus".
+> Cette méthode doit générer un identifiant unique pour le robot, et le renvoyer.
+> Cet identifiant doit ensuite être systématiquement utilisé par le robot dans les communications futures.
+
+> `POST /start`
+>
+> Données :
+> - `rid` (identifiant de robot) (`string`) : `ABC123`
+>
+> Renvoi : nombre de pas à effectuer (`entier`) : 10
+> 
+> Déclare le démarrage d'une chorégraphie.
+
+> `POST /step`
+>
+> Données :
+> - `rid` (identifiant de robot) (`string`) : `ABC123`
+> - `col` (couleur relevée) (`string`) : `G`
+> - `arm` (mouvement du bras) (`string`) : `ALU+ARU`
+> - `exp` (expression réalisée) (`string`) : `XNT`
+>
+> Renvoi : nombre de points obtenus (`entier`) : 2
+> 
+> Cette méthode indique un pas effectué par le robot, transmettant la couleur de plaque détectée (`col`), le mouvement de bras réalisé (`arm`) et l'expression réalisée (`exp`).
+> Elle renvoie le nombre de points obtenus pour le mouvement effectué.
+
+> `GET /score`
+>
+> Données :
+> - `rid` (identifiant de robot) (`string`) : `ABC123`
+>
+> Renvoi : nombre de points totaux (`entier`) : 12
+> 
+> Cette méthode permet d'obtenir le nombre de points obtenus pour un robot.
+
+> `POST /bye`
+>
+> Données :
+> - `rid` (identifiant de robot) (`string`) : `ABC123`
+>
+> Renvoi : *aucun*
+> 
+> Déconnecte un robot du serveur applicatif.
+
+Si des méthodes supplémentaires sont nécessaires, vous pouvez en ajouter.
 
 ### Format .dance
 
 Ce fichier définit la chorégraphie d'un robot.
 Le format est quasiment identique au `.dance` de l'activité "dancefloor".
-Seul le mode séquentiel est géré, qui liste séquentiellement les mouvements, en indiquant d'abord le nombre de cases suivi de la direction "absolue".
+Seul le mode séquentiel est géré, qui liste séquentiellement les mouvements, en indiquant d'abord le nombre de cases suivi de la direction "absolue". Le numéro après "SEQ" est ignoré.
 
 Ce format a un élément spécifique : en seconde partie de fichier, après un indicateur "ACT", sont définies les règles d'expression du robot selon la couleur rencontrée.
 Il est à noter qu'entre chaque mouvement, le robot reprend un air neutre et ses bras reviennent à la normale.
+
+Le fichier va définir une séquence de mouvement. Chaque mouvement est composé d'un nombre de pas. Le serveur définit le nombre de mouvements maximum que le robot doit effectuer. Si ce nombre est inférieur au nombre de mouvements listés dans le fichier `.dance`, alors le robot s'arrêtera une fois le nombre de mouvements maximum atteints.
+Si ce nombre est supérieur au nombre de mouvements listés dans le fichier `.dance`, alors le robot répétera autant de fois la séquence de mouvements jusqu'à atteindre le nombre de mouvements maximum.
 
 Exemple de fichier :
 
@@ -121,6 +184,25 @@ XSD=-2
 XNT=-1
 ```
 
+## Notation
+
+### Evaluations
+
+Au minimum deux évaluations seront effectuées :
+- une vers le début du projet, qui sera concentrée sur la gestion de projets, démarrage du projet, anticipation du temps prévu, etc.
+- une à la toute fin du projet, sous la forme d'une démonstration et de questions individuelles
+
+### Critères de base
+
+Seront prises en compte dans la notation, la qualité, clareté et cohérence du code, aussi bien que les différentes documentations et leur pertinence, si lieu d'être.
+Les commits seront analysés - une personne sans commit sera considérée comme n'ayant réalisé aucun travail.
+
+### Critères étendus
+
+Tout ajout fonctionnel sera bien entendu valorisé.
+Des fonctionnalités telles que l'activation / désactivation du serveur, ou la gestion des messages reçus par le serveur via une queue d'événements, par exemple, sont de bonnes idées. Idem pour un contrôle de permissions, une gestion parallélisée des robots (pour pouvoir lancer deux robots - ou plus ! - en même temps)...
+
+
 ## Annexes
 
 ### Liste des "Mouvements"
@@ -145,3 +227,18 @@ XNT=-1
 `C` : Bleu ciel
 `G` : Vert
 `R` : Rouge
+
+### Liens utiles
+
+#### Documentation sur les venv
+
+https://docs.python.org/3/library/venv.html
+
+#### Documentation de PyQT
+
+https://doc.qt.io/qtforpython-6/
+
+#### Serveurs HTTP en Python
+
+https://docs.python.org/3/library/http.server.html
+
