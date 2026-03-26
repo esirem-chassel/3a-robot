@@ -34,9 +34,10 @@ L'application robot doit être capable de :
 - associer une couleur relevée par le robot à une couleur standard (pour que le robot reconnaisse une plaque verte comme étant du vert)
 - envoyer des informations à l'application serveur
 - relever périodiquement l'état de la batterie, la couleur de la plaque
-- charger un fichier .dance pour exécuter sa chorégraphie
+- charger un fichier .dance pour voir et exécuter sa chorégraphie
 
 Cette application doit se baser sur PyQT.
+
 
 ### Application Serveur
 
@@ -142,6 +143,20 @@ N ARU ALB XNG
 B XSD
 ```
 
+Ce fichier indique que :
+- on est sur un mode séquentiel (le nombre est ignoré pour cette activité)
+- le robot fera les mouvements suivants:
+  - un pas en avant
+  - un pas à gauche
+  - deux pas en arrière
+  - 2 pas à droite
+  - un pas en avant
+  - deux pas à gauche
+- entre chaque mouvement, si la case détectée est de la couleur suivante :
+  - noir : il lèvera le bras droit, inclinera le bras droit en arrière, et affichera une expression "colère"
+  - bleu : il ne lèvera aucun bras et affichera une expression "triste"
+
+
 ### Format .battle
 
 Ce fichier définit les points obtenus en fonction de l'association Mouvement (bras + expression) + Couleur, ainsi que les modalités de la battle.
@@ -184,7 +199,39 @@ XSD=-2
 XNT=-1
 ```
 
+Ce fichier indique que :
+- chaque robot effectuera dix mouvements
+- selon la case, des points seront comptabilisées suivant les actions du robot:
+  - noir :
+    - si le robot bascule les deux bras en arrière : +1 point
+    - pour chaque bras basculé en avant (levé) : -1 point
+    - pour chaque bras basculé en arrière : +1 point
+    - si une expression triste est affichée : +1 point
+    - si une expression colère est affichée : -1 point
+  - bleu :
+    - si n'importe quel bras est basculé en avant ou en arrière : -1 point
+    - si une expression triste est affichée : +2 points
+  - rouge :
+    - si les deux bras sont basculés en avant (levés) : +2 points
+    - si au moins un des bras est basculé en avant (levé) : +1 point
+    - si au moins un des bras est basculé en arrière : +1 point
+    - si une expression colère est affichée : +3 points
+    - si une expression triste est affichée : -2 points
+    - si une expression neutre est affichée : -1 point
+
+
+
+
 ## Notation
+
+### Rendus et suivi de projet
+
+Il est impératif que votre code soit dans un dépôt nommé `polytech-3a-robot` privé, auquel seront ajoutés en collaborateurs l'ensemble des enseignants mobilisés dans le projet Robotique.
+L'application robot sera dans un dossier nommé "approbot" et l'application serveur sera dans un dossier nommé "appserver".
+Il est conseillé de créer votre dépôt au plus tôt.
+
+Il est fortement recommendé de travailler par branches de fonctionnalités.
+
 
 ### Evaluations
 
@@ -227,6 +274,24 @@ Des fonctionnalités telles que l'activation / désactivation du serveur, ou la 
 `C` : Bleu ciel
 `G` : Vert
 `R` : Rouge
+
+### Travailler par branche de fonctionnalités
+
+Avec un découpage assez fin, le développement devient plus simple.
+En effet, si plusieurs personnes travaillent sur une même branche dans Git, cela va générer un nombre important de conflits (modifications conflictuelles sur un même fichier), qui sont très coûteux en temps, en énergie, et peuvent provoquer des bugs.
+
+Le plus simple est donc de travailler par branches de fonctionnalités :
+- à chaque nouvelle fonctionnalité démarrée, on s'assure que notre branche principale (usuellement `main`) soit à jour (`git pull`), et on crée une nouvelle branche selon la fonctionnalité voulue (`git checkout -b <nom branche>` - ex : `git checkout -b 115-mock-battle-file`)
+- une fois sur la branche de fonctionnalité, on développe normalement et on envoie de manière classique via `add`/`commit`/`push`
+- à un moment de la vie de la branche, on crée une pull request sur Github pour demander l'intégration de la branche de fonctionnalité dans la branche principale
+- une fois le développement de la fonctionnalité testé et considéré comme terminé, on demande une review à un autre membre de l'équipe
+  - si la review laisse apparaître des modifications nécessaires, on va continuer à développer sur la branche jusqu'à un résultat satisfaisant
+  - si la review est acceptée, on va merge la branche - cela peut amener des conflits qu'on va résoudre soit aisément dans Github, soit en suivant les consignes de Github pour les résoudre en local
+- une fois la pull request validée et la branche fusionnée, celle-ci n'est plus utile; on peut la supprimer et passer à la fonctionnalité suivante
+
+Normalement, si vous avez bien réalisé votre gestion de projet, chaque micro fonctionnalité correspond à une `issue` Github; il est alors de bon usage de nommer vos branches en les préfixant ou suffisant du numéro d'issue associé (en ajoutant un court nom descriptif).
+Ainsi, Github reconnaît automatiquement le lien avec l'issue.
+
 
 ### Liens utiles
 
