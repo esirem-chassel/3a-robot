@@ -6,42 +6,42 @@ L'objectif est de réaliser une application de "dance battle" ou "bataille de da
 
 Deux robots seront placés dans une arène de 2x2 avec des couleurs aléatoires au sol.
 
-Chaque robot va décider aléatoirement d'un nombre (défini par le serveur) de mouvements et va jouer ces mouvements, chaque robot à son tour.
+Chaque robot va décider aléatoirement d'un nombre (défini par le serveur/arbitre) de mouvements et va jouer ces mouvements, chaque robot à son tour.
 
 En plus du mouvement effectué, le robot doit afficher une émotion, à la fois sur son expression mais aussi dans ses yeux (couleur de LED).
 
-Lors de chaque mouvement, le robot va envoyer au serveur :
+Lors de chaque mouvement, le robot va envoyer au serveur/arbitre :
 - la couleur sur laquelle il est placé
 - le mouvement qu'il a effectué
 - l'émotion qu'il affiche (expression et couleur de LED au format hexadécimal)
 
-Le serveur va recevoir ces informations, et va calculer, en fonction de règles, les points obtenus pour la chorégraphie, afin de classer les deux robots.
+Le serveur/arbitre va recevoir ces informations, et va calculer, en fonction de règles, les points obtenus pour la chorégraphie, afin de classer les deux robots.
 
 ## Applications
 
 Deux applications doivent donc être développées :
-- une application robot, qui va dérouler la chorégraphie, et envoyer les informations au serveur
-- une application serveur, qui va recevoir les informations et calculer les scores
+- une application robot/joueur, qui va dérouler la chorégraphie, et envoyer les informations au serveur
+- une application serveur/arbitre, qui va recevoir les informations et calculer les scores
 
 Chaque application doit pouvoir être lancée indépendemment. Vous devez baser votre application sur des environnements virtuels (venv).
 
 
-### Application Robot
+### Application Robot/Joueur
 
-L'application robot doit être capable de :
+L'application robot/joueur doit être capable de :
 - se connecter à un robot (soit via recherche automatique, soit via la saisie d'une IP en interface)
 - faire réaliser des déplacements au robot, et tester les différentes expressions
 - associer une couleur relevée par le robot à une couleur standard (pour que le robot reconnaisse une plaque verte comme étant du vert)
-- envoyer des informations à l'application serveur
+- envoyer des informations à l'application serveur/arbitre
 - relever périodiquement l'état de la batterie, la couleur de la plaque
 - charger un fichier .dance pour voir et exécuter sa chorégraphie
 
 Cette application doit se baser sur PyQT.
 
 
-### Application Serveur
+### Application Serveur/Arbitre
 
-L'application serveur doit être capable de :
+L'application serveur/arbitre doit être capable de :
 - lister les robots connus
 - afficher les réceptions de données de la part des robots
 - charger un fichier .battle pour définir les règles de comptage de points
@@ -159,7 +159,7 @@ Ce fichier indique que :
 
 ### Format .battle
 
-Ce fichier définit les points obtenus en fonction de l'association Mouvement (bras + expression) + Couleur, ainsi que les modalités de la battle.
+Ce fichier définit les points obtenus en fonction de l'association Mouvement (bras + expression) + Couleur, ainsi que les modalités de la battle. Il ne sera connu que du serveur/arbitre.
 
 La première partie du fichier décrit les modalités du jeu.
 `MVS` donne par exemple le nombre de mouvements.
@@ -226,7 +226,7 @@ Ce fichier indique que :
 
 ### Rendus et suivi de projet
 
-Il est impératif que votre code soit dans un dépôt nommé `polytech-3a-robot` privé, auquel seront ajoutés en collaborateurs l'ensemble des enseignants mobilisés dans le projet Robotique.
+Il est impératif que votre code soit dans un dépôt nommé `polytech-3a-robot` privé, auquel seront ajoutés en collaborateurs l'ensemble des enseignants mobilisés dans le projet Robotique : `hchatoux` et `esirem-chassel`.
 L'application robot sera dans un dossier nommé "approbot" et l'application serveur sera dans un dossier nommé "appserver".
 Il est conseillé de créer votre dépôt au plus tôt.
 
@@ -236,7 +236,7 @@ Il est fortement recommendé de travailler par branches de fonctionnalités.
 ### Evaluations
 
 Au minimum deux évaluations seront effectuées :
-- une vers le début du projet, qui sera concentrée sur la gestion de projets, démarrage du projet, anticipation du temps prévu, etc.
+- une vers le milieu du projet, avec analyse de vos pratiques et revue de code
 - une à la toute fin du projet, sous la forme d'une démonstration et de questions individuelles
 
 ### Critères de base
