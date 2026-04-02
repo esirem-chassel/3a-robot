@@ -261,9 +261,11 @@ Des fonctionnalités telles que l'activation / désactivation du serveur, ou la 
 `ARB` : Bras droit en arrière
 
 #### Expression
-`XNT` : Air neutre (repos)
-`XSD` : Air triste (sourcils en bas)
-`XNG` : Air énervé (sourcils en haut)
+`XNT` : Air neutre (sourcils neutres, repos, yeux éteints)
+`XSD` : Air triste (sourcils en bas, repos, yeux allumés en bleus)
+`XNG` : Air énervé (sourcils en haut, repos, yeux allumés en rouge)
+`XHP` : Air content (sourcils neutres, danse, yeux allumés en vert)
+`XDN` : Air enjoué (sourcils qui bougent, danse, yeux allumés en arc-en-ciel)
 
 ### Liste des couleurs reconnues
 
