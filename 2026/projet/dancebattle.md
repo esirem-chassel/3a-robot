@@ -53,13 +53,19 @@ L'application serveur/arbitre doit être capable de :
 ### Communication AppRobot <=> AppServer
 
 La communication sera faite via le protocole HTTP.
+
+> [!WARNING]
+> Tous les appels doivent être réalisés en JSON.
+> Les réponses sont également en JSON.
+
 Le serveur applicatif doit lancer un serveur HTTP et implémenter à minima les méthodes suivantes :
 
 > `GET /`
 > 
 > Données : *aucune*
 >
-> Renvoi : numéro de version (`string`) : `1.2`
+> Renvoi :
+> - `version` : numéro de version (`string`) : `1.2`
 > 
 > Vérifie la disponibilité du serveur applicatif
 > Cette méthode renvoie simplement un numéro de version du serveur applicatif, et n'est utilisée que pour vérifier si le serveur est debout et répond aux communications.
@@ -68,7 +74,8 @@ Le serveur applicatif doit lancer un serveur HTTP et implémenter à minima les 
 >
 > Données : *aucune*
 >
-> Renvoi : identifiant de robot (`string`) : `ABC123`
+> Renvoi :
+> - `rid` : identifiant de robot (`string`) : `ABC123`
 > 
 > Enregistre le robot dans la liste des robots "connus".
 > Cette méthode doit générer un identifiant unique pour le robot, et le renvoyer.
@@ -79,7 +86,8 @@ Le serveur applicatif doit lancer un serveur HTTP et implémenter à minima les 
 > Données :
 > - `rid` (identifiant de robot) (`string`) : `ABC123`
 >
-> Renvoi : nombre de pas à effectuer (`entier`) : 10
+> Renvoi :
+> - `steps` : nombre de pas à effectuer (`entier`) : 10
 > 
 > Déclare le démarrage d'une chorégraphie.
 
@@ -91,7 +99,8 @@ Le serveur applicatif doit lancer un serveur HTTP et implémenter à minima les 
 > - `arm` (mouvement du bras) (`string`) : `ALU+ARU`
 > - `exp` (expression réalisée) (`string`) : `XNT`
 >
-> Renvoi : nombre de points obtenus (`entier`) : 2
+> Renvoi :
+> - `points` : nombre de points obtenus (`entier`) : 2
 > 
 > Cette méthode indique un pas effectué par le robot, transmettant la couleur de plaque détectée (`col`), le mouvement de bras réalisé (`arm`) et l'expression réalisée (`exp`).
 > Elle renvoie le nombre de points obtenus pour le mouvement effectué.
@@ -101,7 +110,8 @@ Le serveur applicatif doit lancer un serveur HTTP et implémenter à minima les 
 > Données :
 > - `rid` (identifiant de robot) (`string`) : `ABC123`
 >
-> Renvoi : nombre de points totaux (`entier`) : 12
+> Renvoi :
+> - `points` : nombre de points totaux (`entier`) : 12
 > 
 > Cette méthode permet d'obtenir le nombre de points obtenus pour un robot.
 
